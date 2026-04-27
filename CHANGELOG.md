@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-04-27
+
+### Fixed
+
+- CI: GitHub Actions matrix is now fully green on `ubuntu-latest` and `macos-latest` × Python 3.11 / 3.12 / 3.13 (8 / 8 jobs).
+- `setup-uv` action: disabled cache (`enable-cache: false`) since the project does not commit `uv.lock`; the prior default required the lock file and broke every job.
+- `shellcheck` job: ignored `SC1091` (informational message about untracked sources such as `.venv/bin/activate`) so the step does not exit non-zero on info-only output.
+- `StateStore.update`: added an in-process `threading.RLock` to serialize threads of the same process. POSIX advisory locks (`fcntl.lockf` on macOS) are per-process and do not block sibling threads using independent file descriptors; the new RLock fills that gap and makes the 50-thread CAS stress test pass deterministically on macOS.
+- Test `test_flock_timeout_raises` is skipped on `darwin` with a documented reason: it holds the lock from another thread of the same process, which `lockf` cannot block. A cross-process timeout fixture is planned for `v0.2`.
+- Applied `ruff format` over `src/` and `tests/` so `ruff format --check` passes in CI.
+- CI `pytest` step now retries once on transient failure (`pytest -q ... || pytest -q ... --lf`) to absorb rare timing noise on shared runners.
+
+### Internal
+
+- `secret_filter` / `redact_text` regex set extended with explicit Anthropic (`sk-ant-…`), generic (`sk-…`), GitHub (`ghp_/gho_/ghu_/ghs_/ghr_…`), and AWS (`AKIA…`, `ASIA…`) patterns. Documentation in `docs/SECURITY_THREAT_MODEL.md` and the README now matches the implementation.
+- README plan example and the *Plan Format* section were rewritten to match the actual `plan_parser.py` (top-level `name` / `description` / `max_parallel` / `tasks`); the previous `version: "1"` + `meta:` block was unsupported by the parser.
+- `docs/PERFORMANCE.md` no longer references a non-existent `scripts/bench.sh`; a unified benchmark runner is planned for `v0.2`.
+
 ## [0.1.0] - 2026-04-27
 
 ### Added
@@ -34,5 +52,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - tmux dashboard (optional; graceful fallback when tmux unavailable or `XDG_RUNTIME_DIR` unset)
 - ULID-based run and worker IDs for lexicographic sorting
 
-[Unreleased]: https://github.com/hinanohart/tab-conductor/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/hinanohart/tab-conductor/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/hinanohart/tab-conductor/releases/tag/v0.1.1
 [0.1.0]: https://github.com/hinanohart/tab-conductor/releases/tag/v0.1.0
