@@ -30,6 +30,13 @@ dev = [
     "types-PyYAML>=6.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/hinanohart/tab-conductor"
+Repository = "https://github.com/hinanohart/tab-conductor"
+Issues = "https://github.com/hinanohart/tab-conductor/issues"
+Changelog = "https://github.com/hinanohart/tab-conductor/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/hinanohart/tab-conductor#readme"
+
 [project.scripts]
 tab-conductor = "tab_conductor.cli:main"
 
