@@ -55,6 +55,7 @@ def _valid_state_st() -> st.SearchStrategy[dict[str, Any]]:
 # Property tests
 # ---------------------------------------------------------------------------
 
+
 @given(initial=_valid_state_st())
 @settings(
     max_examples=30,
@@ -85,9 +86,7 @@ def test_write_read_round_trip(initial: dict[str, Any]) -> None:
     suppress_health_check=[HealthCheck.function_scoped_fixture],
     deadline=None,
 )
-def test_sequential_updates_always_valid(
-    initial: dict[str, Any], new_statuses: list[str]
-) -> None:
+def test_sequential_updates_always_valid(initial: dict[str, Any], new_statuses: list[str]) -> None:
     """Applying sequential update()s must leave state schema-valid after every step."""
     schema = load_schema("state")
     tmp_dir = Path(tempfile.mkdtemp(prefix="tc_prop_seq_", dir="/tmp"))
@@ -111,9 +110,7 @@ def test_sequential_updates_always_valid(
     suppress_health_check=[HealthCheck.function_scoped_fixture],
     deadline=None,
 )
-def test_version_monotonically_increases(
-    initial: dict[str, Any], n_updates: int
-) -> None:
+def test_version_monotonically_increases(initial: dict[str, Any], n_updates: int) -> None:
     """version must strictly increase by exactly 1 per update() call."""
     tmp_dir = Path(tempfile.mkdtemp(prefix="tc_prop_ver_", dir="/tmp"))
     try:

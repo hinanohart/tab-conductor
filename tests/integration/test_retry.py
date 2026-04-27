@@ -53,11 +53,10 @@ def _task(
 def _read_state(run_dir: Path) -> dict[str, object]:
     # Find the ULID sub-directory (26-char Crockford Base32)
     import re
+
     ulid_re = re.compile(r"^[0-9A-HJKMNP-TV-Z]{26}$")
     state_file = next(
-        d / "state.json"
-        for d in run_dir.iterdir()
-        if d.is_dir() and ulid_re.match(d.name)
+        d / "state.json" for d in run_dir.iterdir() if d.is_dir() and ulid_re.match(d.name)
     )
     return json.loads(state_file.read_text())  # type: ignore[return-value]
 

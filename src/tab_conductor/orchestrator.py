@@ -404,8 +404,7 @@ class Orchestrator:
             task.worker_id = None
             # Exponential backoff
             backoff = min(
-                self._config.backoff_base_s
-                * (self._config.backoff_factor ** (task.retries - 1)),
+                self._config.backoff_base_s * (self._config.backoff_factor ** (task.retries - 1)),
                 self._config.poll_max_s,
             )
             task.retry_at = time.monotonic() + backoff
@@ -431,9 +430,7 @@ class Orchestrator:
     def _get_ready_tasks(self) -> list[_TaskRecord]:
         """Return tasks that are pending, deps done, and backoff elapsed."""
         now_mono = time.monotonic()
-        done_ids = {
-            t.id for t in self._tasks.values() if t.status == "done"
-        }
+        done_ids = {t.id for t in self._tasks.values() if t.status == "done"}
         ready: list[_TaskRecord] = []
         for task in self._tasks.values():
             if task.status != "pending":
@@ -564,9 +561,7 @@ class Orchestrator:
             path.append(node)
             for dep in self._tasks[node].depends_on:
                 if dep not in self._tasks:
-                    raise OrchestratorError(
-                        f"Task '{node}' depends on unknown task '{dep}'"
-                    )
+                    raise OrchestratorError(f"Task '{node}' depends on unknown task '{dep}'")
                 if color[dep] == GRAY:
                     cycle_path = " -> ".join(path + [dep])
                     raise OrchestratorError(f"DAG cycle detected: {cycle_path}")
@@ -603,6 +598,7 @@ class Orchestrator:
 
     def _update_state_status(self, status: str) -> None:
         """Update the top-level run status in state.json."""
+
         def mutator(s: dict[str, Any]) -> dict[str, Any]:
             s["status"] = status
             if status in ("completed", "failed", "halted"):
@@ -676,6 +672,7 @@ class Orchestrator:
 
     def _update_state_cost(self, total_usd: float) -> None:
         """Update the global cost total in state.json."""
+
         def mutator(s: dict[str, Any]) -> dict[str, Any]:
             s["cost_usd_total"] = total_usd
             return s
@@ -721,14 +718,10 @@ class Orchestrator:
             "max_retries": task.max_retries,
             "assigned_to": task.assigned_to,
             "started_at": (
-                task.started_at.isoformat().replace("+00:00", "Z")
-                if task.started_at
-                else None
+                task.started_at.isoformat().replace("+00:00", "Z") if task.started_at else None
             ),
             "ended_at": (
-                task.ended_at.isoformat().replace("+00:00", "Z")
-                if task.ended_at
-                else None
+                task.ended_at.isoformat().replace("+00:00", "Z") if task.ended_at else None
             ),
             "result": task.result,
             "last_error": task.last_error,

@@ -107,8 +107,7 @@ def parse_plan(path: Path) -> ParsedPlan:
 
     if not isinstance(data, dict):
         raise PlanParseError(
-            "Top-level YAML value must be a mapping, not "
-            f"{type(data).__name__}",
+            f"Top-level YAML value must be a mapping, not {type(data).__name__}",
             path=path,
         )
 
@@ -223,9 +222,7 @@ def _validate_task(
     if task_id is None:
         raise PlanParseError(f"Task at index {idx} is missing required field 'id'", path=path)
     if not isinstance(task_id, str) or not task_id.strip():
-        raise PlanParseError(
-            f"Task at index {idx}: 'id' must be a non-empty string", path=path
-        )
+        raise PlanParseError(f"Task at index {idx}: 'id' must be a non-empty string", path=path)
     task_id = task_id.strip()
     if task_id in seen_ids:
         raise PlanParseError(f"Duplicate task id '{task_id}'", path=path)
@@ -235,9 +232,7 @@ def _validate_task(
     if prompt is None:
         raise PlanParseError(f"Task '{task_id}' is missing required field 'prompt'", path=path)
     if not isinstance(prompt, str) or not prompt.strip():
-        raise PlanParseError(
-            f"Task '{task_id}': 'prompt' must be a non-empty string", path=path
-        )
+        raise PlanParseError(f"Task '{task_id}': 'prompt' must be a non-empty string", path=path)
 
     # Optional: kind (default "general")
     kind = raw.get("kind", "general")
@@ -279,9 +274,7 @@ def _validate_task(
     # Optional: depends_on (default [])
     depends_on_raw = raw.get("depends_on", [])
     if not isinstance(depends_on_raw, list):
-        raise PlanParseError(
-            f"Task '{task_id}': 'depends_on' must be a list", path=path
-        )
+        raise PlanParseError(f"Task '{task_id}': 'depends_on' must be a list", path=path)
     depends_on: list[str] = []
     for dep in depends_on_raw:
         if not isinstance(dep, str) or not dep.strip():
@@ -294,8 +287,12 @@ def _validate_task(
 
     # Build normalised task (preserve unknown extra keys)
     task: dict[str, Any] = {
-        **{k: v for k, v in raw.items() if k not in _REQUIRED_TASK_FIELDS
-           and k not in {"kind", "priority", "max_retries", "depends_on"}},
+        **{
+            k: v
+            for k, v in raw.items()
+            if k not in _REQUIRED_TASK_FIELDS
+            and k not in {"kind", "priority", "max_retries", "depends_on"}
+        },
         "id": task_id,
         "prompt": prompt.strip(),
         "kind": kind,

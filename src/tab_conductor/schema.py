@@ -55,9 +55,7 @@ def load_schema(name: str) -> dict[str, Any]:
     """
     schema_path = _repo_root() / "skill" / "references" / "schemas" / f"{name}.schema.json"
     if not schema_path.is_file():
-        raise FileNotFoundError(
-            f"Schema '{name}' not found at expected path: {schema_path}"
-        )
+        raise FileNotFoundError(f"Schema '{name}' not found at expected path: {schema_path}")
     with schema_path.open(encoding="utf-8") as fh:
         return json.load(fh)  # type: ignore[no-any-return]
 

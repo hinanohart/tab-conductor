@@ -139,9 +139,7 @@ def test_ls_shows_runs(tmp_path: Path) -> None:
 def test_show_unknown_run_exits_nonzero(tmp_path: Path) -> None:
     """``tab-conductor show <unknown_id>`` must exit non-zero."""
     runner = CliRunner()
-    result = runner.invoke(
-        main, ["show", "DOESNOTEXIST", "--state-root", str(tmp_path)]
-    )
+    result = runner.invoke(main, ["show", "DOESNOTEXIST", "--state-root", str(tmp_path)])
     assert result.exit_code != 0
 
 

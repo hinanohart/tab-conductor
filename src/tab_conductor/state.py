@@ -315,8 +315,7 @@ class StateStore:
         """
         if not self._state_path.exists():
             raise FileNotFoundError(
-                f"State file not found: {self._state_path}. "
-                "Call init() before read()."
+                f"State file not found: {self._state_path}. Call init() before read()."
             )
         try:
             with self._state_path.open("r", encoding="utf-8") as fh:

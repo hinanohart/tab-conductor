@@ -22,9 +22,7 @@ from typing import Any
 # ---------------------------------------------------------------------------
 
 # Matches the filter suffix: [?field=='value']|length  (with leading [?)
-_FILTER_RE = re.compile(
-    r"^\[\?(?P<field>[a-zA-Z_]\w*)==['\"](?P<value>[^'\"]*)['\"]]\|length$"
-)
+_FILTER_RE = re.compile(r"^\[\?(?P<field>[a-zA-Z_]\w*)==['\"](?P<value>[^'\"]*)['\"]]\|length$")
 _INDEX_RE = re.compile(r"^\[(?P<idx>-?\d+)]$")
 _SEGMENT_RE = re.compile(r"^[a-zA-Z_]\w*$")
 
@@ -88,12 +86,8 @@ def query(data: dict[str, Any], path: str) -> Any:
         if container is None:
             return 0
         if not isinstance(container, list):
-            raise TypeError(
-                f"Expected a list at '{prefix}', got {type(container).__name__}"
-            )
-        return sum(
-            1 for item in container if isinstance(item, dict) and item.get(field) == value
-        )
+            raise TypeError(f"Expected a list at '{prefix}', got {type(container).__name__}")
+        return sum(1 for item in container if isinstance(item, dict) and item.get(field) == value)
 
     # Standard dotted-path resolution
     return _resolve_prefix(data, path)
@@ -102,6 +96,7 @@ def query(data: dict[str, Any], path: str) -> Any:
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
 
 def _resolve_prefix(data: Any, path: str) -> Any:
     """Resolve a dotted path (without filter syntax) against *data*.

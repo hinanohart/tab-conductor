@@ -86,9 +86,7 @@ def test_50_threads_version_consistent(tmp_path: Path) -> None:
 
     assert not errors, f"Thread errors: {errors}"
     final = store.read()
-    assert final["version"] == n_threads, (
-        f"Expected version {n_threads}, got {final['version']}"
-    )
+    assert final["version"] == n_threads, f"Expected version {n_threads}, got {final['version']}"
 
 
 # ---------------------------------------------------------------------------

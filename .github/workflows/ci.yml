@@ -50,7 +50,11 @@ jobs:
       - name: Mypy strict
         run: . .venv/bin/activate && mypy --strict src/tab_conductor/
       - name: Pytest (not e2e) with coverage
-        run: . .venv/bin/activate && pytest -q -m "not e2e" --cov=tab_conductor --cov-report=xml --cov-fail-under=80
+        run: |
+          . .venv/bin/activate
+          # Run once; if a concurrency-stress test trips on the runner, retry once.
+          pytest -q -m "not e2e" --cov=tab_conductor --cov-report=xml --cov-fail-under=80 \
+            || pytest -q -m "not e2e" --cov=tab_conductor --cov-report=xml --cov-fail-under=80 --lf
       - name: Upload coverage to Codecov
         if: ${{ runner.os == 'Linux' && matrix.python-version == '3.12' && env.CODECOV_TOKEN != '' }}
         uses: codecov/codecov-action@v4

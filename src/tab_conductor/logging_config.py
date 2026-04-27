@@ -32,11 +32,7 @@ class _JsonFormatter(logging.Formatter):
         Returns:
             A single-line JSON string ending without a newline.
         """
-        ts = (
-            datetime.fromtimestamp(record.created, tz=UTC)
-            .isoformat()
-            .replace("+00:00", "Z")
-        )
+        ts = datetime.fromtimestamp(record.created, tz=UTC).isoformat().replace("+00:00", "Z")
         payload: dict[str, Any] = {
             "ts": ts,
             "lvl": record.levelname,
@@ -46,10 +42,28 @@ class _JsonFormatter(logging.Formatter):
 
         # Collect extra fields: anything not in standard LogRecord attributes.
         _standard_keys = {
-            "args", "created", "exc_info", "exc_text", "filename", "funcName",
-            "levelname", "levelno", "lineno", "message", "module", "msecs",
-            "msg", "name", "pathname", "process", "processName", "relativeCreated",
-            "stack_info", "thread", "threadName", "taskName",
+            "args",
+            "created",
+            "exc_info",
+            "exc_text",
+            "filename",
+            "funcName",
+            "levelname",
+            "levelno",
+            "lineno",
+            "message",
+            "module",
+            "msecs",
+            "msg",
+            "name",
+            "pathname",
+            "process",
+            "processName",
+            "relativeCreated",
+            "stack_info",
+            "thread",
+            "threadName",
+            "taskName",
         }
         extra: dict[str, Any] = {
             k: v for k, v in record.__dict__.items() if k not in _standard_keys

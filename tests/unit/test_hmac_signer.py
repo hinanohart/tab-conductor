@@ -130,9 +130,7 @@ class TestDisabledMode:
         with pytest.raises(HmacKeyMissing):
             signer.sign({"data": "value"})
 
-    def test_verify_returns_false_when_no_key(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
+    def test_verify_returns_false_when_no_key(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """verify() returns False (not raise) when no key is configured."""
         monkeypatch.delenv("TAB_CONDUCTOR_HMAC_KEY", raising=False)
         signer = HmacSigner()
