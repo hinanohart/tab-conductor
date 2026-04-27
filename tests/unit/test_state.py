@@ -145,6 +145,14 @@ def test_lock_path_darwin_vs_linux(tmp_run_dir: Path, monkeypatch: pytest.Monkey
         assert loaded["version"] == 0
 
 
+@pytest.mark.skipif(
+    sys.platform == "darwin",
+    reason=(
+        "macOS fcntl.lockf is per-process advisory: a thread holding the lock "
+        "via a separate fd does not block another fd in the same process. "
+        "Cross-process timeout is exercised in integration tests instead."
+    ),
+)
 def test_flock_timeout_raises(tmp_run_dir: Path) -> None:
     """StateLockTimeout must be raised when the exclusive lock is held too long."""
     state_dir = tmp_run_dir / "run_timeout"
