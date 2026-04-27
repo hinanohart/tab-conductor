@@ -18,6 +18,7 @@ import json
 import os
 import sys
 import tempfile
+import threading
 import time
 from collections.abc import Callable
 from pathlib import Path
@@ -153,6 +154,11 @@ class StateStore:
         self._state_path = state_dir / "state.json"
         self._lock_path = state_dir / "state.lock"
         self._schema: dict[str, Any] = load_schema("state")
+        # In-process re-entrant lock to provide thread-level mutual exclusion
+        # in addition to the cross-process flock/lockf below. POSIX advisory
+        # locks (especially ``fcntl.lockf`` on macOS) are not guaranteed to
+        # serialize threads of the same process — they are per-process.
+        self._thread_lock: threading.RLock = threading.RLock()
         state_dir.mkdir(parents=True, exist_ok=True)
         # Ensure the lock file exists so we can open it without CREAT races
         self._lock_path.touch(exist_ok=True)
@@ -236,7 +242,7 @@ class StateStore:
             SchemaValidationError: If the post-mutation state is invalid.
             OSError: On filesystem errors.
         """
-        with self._lock_path.open("r+", encoding="utf-8") as lock_fh:
+        with self._thread_lock, self._lock_path.open("r+", encoding="utf-8") as lock_fh:
             _flock_with_timeout(lock_fh.fileno(), _LOCK_EX | _LOCK_NB, self._lock_path)
             try:
                 current = self._read_raw()
