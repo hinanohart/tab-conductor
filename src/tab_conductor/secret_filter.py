@@ -55,7 +55,7 @@ _DENY_BASENAME_PATTERNS: tuple[str, ...] = (
 _DENY_HOME_DIRS: tuple[tuple[str, ...], ...] = (
     (".aws",),
     (".kaggle",),
-    (".ssh",),      # individually excluded: known_hosts is allowed below
+    (".ssh",),  # individually excluded: known_hosts is allowed below
     (".modal",),
     (".gnupg",),
 )
@@ -70,9 +70,7 @@ _DENY_HOME_FILES: tuple[tuple[str, ...], ...] = (
 
 # Paths relative to $HOME that are explicitly ALLOWED even when their parent
 # directory would otherwise be denied.
-_ALLOW_HOME_FILES: tuple[tuple[str, ...], ...] = (
-    (".ssh", "known_hosts"),
-)
+_ALLOW_HOME_FILES: tuple[tuple[str, ...], ...] = ((".ssh", "known_hosts"),)
 
 
 def _resolve(path: str | Path) -> Path:

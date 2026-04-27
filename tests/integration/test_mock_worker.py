@@ -57,11 +57,10 @@ def _simple_task(
 
 def _read_state(run_dir: Path) -> dict[str, object]:
     import re
+
     ulid_re = re.compile(r"^[0-9A-HJKMNP-TV-Z]{26}$")
     state_file = next(
-        d / "state.json"
-        for d in run_dir.iterdir()
-        if d.is_dir() and ulid_re.match(d.name)
+        d / "state.json" for d in run_dir.iterdir() if d.is_dir() and ulid_re.match(d.name)
     )
     return json.loads(state_file.read_text())  # type: ignore[return-value]
 
@@ -151,7 +150,7 @@ def test_sigint_graceful_halt(tmp_path: Path) -> None:
     # leaving the pytest main thread unaffected.
     script = f"""
 import sys
-sys.path.insert(0, {str(Path(__file__).parent.parent.parent / 'src')!r})
+sys.path.insert(0, {str(Path(__file__).parent.parent.parent / "src")!r})
 import os, time
 os.environ["MOCK_SLEEP_S"] = "2.0"
 os.environ["MOCK_EXIT_CODE"] = "0"

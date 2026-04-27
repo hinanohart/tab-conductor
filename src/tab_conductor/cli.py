@@ -82,9 +82,7 @@ def validate(ctx: click.Context, plan_path: str) -> None:
         click.echo(f"ERROR: {exc}", err=True)
         ctx.exit(1)
         return
-    click.echo(
-        f"OK: {len(parsed.tasks)} task(s) — name={parsed.metadata.get('name', '')!r}"
-    )
+    click.echo(f"OK: {len(parsed.tasks)} task(s) — name={parsed.metadata.get('name', '')!r}")
 
 
 # ---------------------------------------------------------------------------
@@ -149,8 +147,7 @@ def run(
     mock_worker_path: Path | None = None
     if mock:
         candidate = (
-            Path(__file__).parent.parent.parent.parent
-            / "tests" / "fixtures" / "mock_worker.sh"
+            Path(__file__).parent.parent.parent.parent / "tests" / "fixtures" / "mock_worker.sh"
         )
         if not candidate.exists():
             # Try relative to cwd
@@ -194,9 +191,7 @@ def ls_cmd(ctx: click.Context, state_root: str | None) -> None:
         click.echo("no runs found")
         return
 
-    runs = sorted(
-        [d for d in root.iterdir() if d.is_dir() and (d / "state.json").exists()]
-    )
+    runs = sorted([d for d in root.iterdir() if d.is_dir() and (d / "state.json").exists()])
     if not runs:
         click.echo("no runs found")
         return
@@ -421,6 +416,7 @@ def bugreport(ctx: click.Context, run_id: str, output: str | None, state_root: s
                     redacted = redact_text(text)
                     encoded = redacted.encode("utf-8")
                     import io
+
                     info = tarfile.TarInfo(name=arcname)
                     info.size = len(encoded)
                     tar.addfile(info, io.BytesIO(encoded))

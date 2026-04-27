@@ -84,18 +84,14 @@ def test_parse_metadata_defaults_filled_in() -> None:
 def test_parse_plan_priority_boundaries() -> None:
     """Priority 0 and 9 should both be accepted."""
     for pval in (0, 9):
-        plan = parse_plan_dict({
-            "tasks": [{"id": "t", "prompt": "p", "priority": pval}]
-        })
+        plan = parse_plan_dict({"tasks": [{"id": "t", "prompt": "p", "priority": pval}]})
         assert plan.tasks[0]["priority"] == pval
 
 
 def test_parse_plan_max_retries_boundaries() -> None:
     """max_retries 0 and 10 should both be accepted."""
     for mr in (0, 10):
-        plan = parse_plan_dict({
-            "tasks": [{"id": "t", "prompt": "p", "max_retries": mr}]
-        })
+        plan = parse_plan_dict({"tasks": [{"id": "t", "prompt": "p", "max_retries": mr}]})
         assert plan.tasks[0]["max_retries"] == mr
 
 

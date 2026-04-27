@@ -67,8 +67,7 @@ def parse(s: str) -> datetime:
     """
     if not _CROCKFORD_RE.match(s):
         raise ValueError(
-            f"Invalid ULID string: {s!r}. "
-            "Must be 26 characters from Crockford Base32 alphabet."
+            f"Invalid ULID string: {s!r}. Must be 26 characters from Crockford Base32 alphabet."
         )
     ulid_obj = ULID.from_str(s)
     # ulid_obj.datetime returns a timezone-aware UTC datetime

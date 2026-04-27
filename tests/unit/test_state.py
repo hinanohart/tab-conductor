@@ -35,6 +35,7 @@ from tab_conductor.state import (
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _make_valid_state(run_id: str = "01ARZ3NDEKTSV4RRFFQ69G5FAV") -> dict[str, Any]:
     """Return a minimal schema-valid state dict."""
     return {
@@ -53,6 +54,7 @@ def _make_valid_state(run_id: str = "01ARZ3NDEKTSV4RRFFQ69G5FAV") -> dict[str, A
 # ---------------------------------------------------------------------------
 # Test cases
 # ---------------------------------------------------------------------------
+
 
 def test_init_and_read_round_trip(tmp_run_dir: Path) -> None:
     """init() then read() must return an equal dict with version==0."""

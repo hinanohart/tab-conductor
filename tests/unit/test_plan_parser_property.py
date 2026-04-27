@@ -39,14 +39,16 @@ _kind_st = st.sampled_from(["general", "refactor", "verify", "build"])
 
 def _task_st(task_id: str) -> st.SearchStrategy[dict[str, Any]]:
     """Strategy for a valid task dict with the given id."""
-    return st.fixed_dictionaries({
-        "id": st.just(task_id),
-        "prompt": _prompt_st,
-        "kind": _kind_st,
-        "priority": _priority_st,
-        "max_retries": _max_retries_st,
-        "depends_on": st.just([]),
-    })
+    return st.fixed_dictionaries(
+        {
+            "id": st.just(task_id),
+            "prompt": _prompt_st,
+            "kind": _kind_st,
+            "priority": _priority_st,
+            "max_retries": _max_retries_st,
+            "depends_on": st.just([]),
+        }
+    )
 
 
 @st.composite
