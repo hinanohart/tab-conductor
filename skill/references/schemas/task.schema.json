@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/hinanohart/tab-conductor/schemas/task.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "kind", "prompt", "status", "priority", "depends_on", "retries", "max_retries"],
+  "properties": {
+    "id": {"type": "string"},
+    "kind": {"type": "string"},
+    "prompt": {"type": "string"},
+    "status": {"enum": ["pending", "ready", "assigned", "running", "done", "failed", "terminal"]},
+    "priority": {"type": "integer", "minimum": 0, "maximum": 9},
+    "depends_on": {"type": "array", "items": {"type": "string"}},
+    "retries": {"type": "integer", "minimum": 0},
+    "max_retries": {"type": "integer", "minimum": 0, "maximum": 10},
+    "assigned_to": {"type": ["string", "null"]},
+    "started_at": {"type": ["string", "null"], "format": "date-time"},
+    "ended_at": {"type": ["string", "null"], "format": "date-time"},
+    "result": {"type": ["object", "null"]},
+    "last_error": {"type": ["string", "null"]}
+  }
+}

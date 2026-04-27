@@ -1,0 +1,19 @@
+name: "cyclic_plan"
+description: "Plan with a dependency cycle — should be rejected"
+max_parallel: 2
+
+tasks:
+  - id: "task_x"
+    kind: "general"
+    prompt: "Task X depends on task_z"
+    depends_on: ["task_z"]
+
+  - id: "task_y"
+    kind: "general"
+    prompt: "Task Y depends on task_x"
+    depends_on: ["task_x"]
+
+  - id: "task_z"
+    kind: "general"
+    prompt: "Task Z depends on task_y — creates a cycle"
+    depends_on: ["task_y"]

@@ -1,0 +1,16 @@
+name: "dup_id_plan"
+description: "Plan with duplicate task ids — should be rejected"
+max_parallel: 2
+
+tasks:
+  - id: "task_a"
+    kind: "general"
+    prompt: "First task_a"
+
+  - id: "task_b"
+    kind: "general"
+    prompt: "A normal task"
+
+  - id: "task_a"
+    kind: "general"
+    prompt: "Duplicate id — should trigger PlanParseError"

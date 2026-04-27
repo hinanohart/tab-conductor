@@ -1,0 +1,32 @@
+name: "scenario_a_refactor"
+description: "Parallel refactor across multiple modules with linting and type-checking"
+max_parallel: 4
+tasks:
+  - id: "lint_module_a"
+    kind: "refactor"
+    prompt: "Fix ruff issues in src/module_a/"
+    priority: 5
+
+  - id: "lint_module_b"
+    kind: "refactor"
+    prompt: "Fix ruff issues in src/module_b/"
+    priority: 5
+
+  - id: "type_module_a"
+    kind: "refactor"
+    prompt: "Fix mypy errors in src/module_a/"
+    priority: 6
+    depends_on: ["lint_module_a"]
+
+  - id: "type_module_b"
+    kind: "refactor"
+    prompt: "Fix mypy errors in src/module_b/"
+    priority: 6
+    depends_on: ["lint_module_b"]
+
+  - id: "verify"
+    kind: "verify"
+    prompt: "Run pytest and report failures"
+    priority: 9
+    depends_on: ["type_module_a", "type_module_b"]
+    max_retries: 1

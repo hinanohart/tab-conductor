@@ -1,0 +1,28 @@
+name: "scenario_e_repro"
+description: "Reproduce a bug using three different strategies in parallel, then triage results"
+max_parallel: 3
+tasks:
+  - id: "repro_minimal"
+    kind: "repro"
+    prompt: "Attempt to reproduce the bug described in issue #42 using the minimal reproduction script in scripts/repro_minimal.py. Run it, capture stdout/stderr, and report: reproduced (yes/no), error message, and stack trace if any."
+    priority: 8
+    max_retries: 1
+
+  - id: "repro_integration"
+    kind: "repro"
+    prompt: "Attempt to reproduce the bug from issue #42 via the full integration test suite. Run pytest tests/integration/test_issue42.py -v and report: test outcome, error message, and which assertion failed."
+    priority: 8
+    max_retries: 1
+
+  - id: "repro_bisect"
+    kind: "repro"
+    prompt: "Attempt to identify the commit that introduced the bug from issue #42. Use git bisect with the test in tests/integration/test_issue42.py as the bisect script. Report the first bad commit hash and its message."
+    priority: 7
+    max_retries: 0
+
+  - id: "triage"
+    kind: "verify"
+    prompt: "Synthesize the results from repro_minimal, repro_integration, and repro_bisect. Determine: (1) Is the bug confirmed reproducible? (2) What is the root cause hypothesis? (3) Which commit introduced it? Write a triage report to docs/triage_issue42.md."
+    priority: 9
+    depends_on: ["repro_minimal", "repro_integration", "repro_bisect"]
+    max_retries: 0

@@ -1,0 +1,25 @@
+name: "scenario_c_multi_provider"
+description: "Evaluate the same prompt with three different provider configurations in parallel"
+max_parallel: 3
+tasks:
+  - id: "eval_fast"
+    kind: "evaluate"
+    prompt: "Using a fast/cheap model configuration: summarize the architecture of this codebase in src/ in 5 bullet points. Focus on speed and cost efficiency."
+    priority: 5
+
+  - id: "eval_quality"
+    kind: "evaluate"
+    prompt: "Using a high-quality model configuration: summarize the architecture of this codebase in src/ in 5 bullet points. Focus on accuracy and detail."
+    priority: 5
+
+  - id: "eval_balanced"
+    kind: "evaluate"
+    prompt: "Using a balanced model configuration: summarize the architecture of this codebase in src/ in 5 bullet points. Balance speed and quality."
+    priority: 5
+
+  - id: "compare_outputs"
+    kind: "verify"
+    prompt: "Compare the three architecture summaries produced by eval_fast, eval_quality, and eval_balanced. Identify which points appear in all three, which are unique, and recommend the most accurate summary."
+    priority: 8
+    depends_on: ["eval_fast", "eval_quality", "eval_balanced"]
+    max_retries: 0
