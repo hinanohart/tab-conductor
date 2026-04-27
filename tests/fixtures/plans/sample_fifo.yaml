@@ -1,0 +1,19 @@
+name: "simple_fifo"
+description: "Three independent tasks with equal priority"
+max_parallel: 2
+
+tasks:
+  - id: "task_a"
+    kind: "general"
+    prompt: "Perform task A"
+    priority: 5
+
+  - id: "task_b"
+    kind: "general"
+    prompt: "Perform task B"
+    priority: 5
+
+  - id: "task_c"
+    kind: "general"
+    prompt: "Perform task C"
+    priority: 5

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/hinanohart/tab-conductor/schemas/event.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ts", "kind"],
+  "properties": {
+    "ts": {"type": "string", "format": "date-time"},
+    "kind": {"type": "string"},
+    "worker_id": {"type": ["string", "null"]},
+    "task_id": {"type": ["string", "null"]},
+    "payload": {"type": "object"}
+  }
+}

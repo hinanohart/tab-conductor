@@ -1,0 +1,25 @@
+name: "scenario_b_translate"
+description: "Concurrent documentation translation — one worker per target language"
+max_parallel: 3
+tasks:
+  - id: "translate_ja"
+    kind: "translate"
+    prompt: "Translate docs/README.md from English to Japanese. Preserve all code blocks and headings unchanged. Write output to docs/README.ja.md."
+    priority: 5
+
+  - id: "translate_zh"
+    kind: "translate"
+    prompt: "Translate docs/README.md from English to Simplified Chinese. Preserve all code blocks and headings unchanged. Write output to docs/README.zh.md."
+    priority: 5
+
+  - id: "translate_ko"
+    kind: "translate"
+    prompt: "Translate docs/README.md from English to Korean. Preserve all code blocks and headings unchanged. Write output to docs/README.ko.md."
+    priority: 5
+
+  - id: "review_translations"
+    kind: "verify"
+    prompt: "Review all three translated files (docs/README.ja.md, docs/README.zh.md, docs/README.ko.md) for completeness. Verify no code blocks were modified. Report any missing sections."
+    priority: 7
+    depends_on: ["translate_ja", "translate_zh", "translate_ko"]
+    max_retries: 0

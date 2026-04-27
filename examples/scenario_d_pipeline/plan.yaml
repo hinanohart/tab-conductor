@@ -1,0 +1,34 @@
+name: "scenario_d_pipeline"
+description: "Linear CI/CD pipeline: test → lint → build → deploy, with parallelism within each stage"
+max_parallel: 2
+tasks:
+  - id: "unit_tests"
+    kind: "test"
+    prompt: "Run pytest tests/unit/ and report all failures with their file:line locations."
+    priority: 9
+
+  - id: "integration_tests"
+    kind: "test"
+    prompt: "Run pytest tests/integration/ and report all failures with their file:line locations."
+    priority: 9
+
+  - id: "lint_check"
+    kind: "lint"
+    prompt: "Run ruff check src/ and mypy --strict src/. Report all issues with severity."
+    priority: 7
+    depends_on: ["unit_tests", "integration_tests"]
+    max_retries: 1
+
+  - id: "build_artifact"
+    kind: "build"
+    prompt: "Run 'python -m build' and verify the wheel and sdist are created in dist/. Report the artifact sizes."
+    priority: 6
+    depends_on: ["lint_check"]
+    max_retries: 1
+
+  - id: "deploy_staging"
+    kind: "deploy"
+    prompt: "Deploy the built artifact from dist/ to the staging environment. Run smoke tests against the staging URL and report pass/fail."
+    priority: 5
+    depends_on: ["build_artifact"]
+    max_retries: 0

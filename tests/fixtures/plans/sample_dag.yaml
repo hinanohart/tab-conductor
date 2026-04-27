@@ -1,0 +1,35 @@
+name: "scenario_a_refactor"
+description: "Parallel refactor across 4 modules with verification"
+max_parallel: 4
+
+tasks:
+  - id: "lint_fix"
+    kind: "refactor"
+    prompt: "Fix lint issues in src/foo.py"
+    priority: 5
+
+  - id: "type_fix"
+    kind: "refactor"
+    prompt: "Fix mypy errors in src/foo.py"
+    priority: 5
+    depends_on: ["lint_fix"]
+
+  - id: "doc_fix"
+    kind: "refactor"
+    prompt: "Add missing docstrings in src/foo.py"
+    priority: 3
+    depends_on: ["lint_fix"]
+
+  - id: "test_run"
+    kind: "verify"
+    prompt: "Run pytest and confirm all tests pass"
+    priority: 9
+    depends_on: ["lint_fix", "type_fix"]
+    max_retries: 1
+
+  - id: "integration_check"
+    kind: "verify"
+    prompt: "Run integration smoke test suite"
+    priority: 7
+    depends_on: ["test_run", "doc_fix"]
+    max_retries: 0

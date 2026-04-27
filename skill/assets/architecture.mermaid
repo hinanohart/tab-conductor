@@ -1,0 +1,21 @@
+flowchart TB
+    User([User])
+    subgraph Supervisor["Supervisor (current Claude Code session)"]
+        SC[CLI: tab-conductor run plan.yaml]
+        OP[Orchestrator loop]
+        ST[(state.json + state.lock\nflock + os.replace)]
+        EV[(events/*.jsonl)]
+    end
+    subgraph Workers["Worker subprocesses"]
+        W1[claude -p stream-json\n--max-budget-usd]
+        W2[claude -p ...]
+        WN[claude -p ...]
+    end
+    subgraph Logs["state_dir/logs + transcripts"]
+        L1[worker_*.jsonl]
+        SUP[supervisor.jsonl]
+    end
+    User --> SC --> OP <--> ST
+    OP --> W1 & W2 & WN
+    Workers --> Logs
+    OP -- "summary only" --> SC
