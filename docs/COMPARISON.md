@@ -53,9 +53,9 @@ tab-conductor is a **stable, observable fallback** for cases where:
 
 ### vs claude_code_agent_farm
 
-claude_code_agent_farm demonstrates large-scale parallelism (10–50 workers) via Python multiprocessing. It focuses on throughput for batch tasks. It does not provide a cost cap, secret scrubbing, or stuck detection.
+claude_code_agent_farm demonstrates large-scale parallelism (10–50 workers) via Python multiprocessing and is optimised for batch throughput. It is designed for use cases where speed is the primary concern.
 
-tab-conductor trades raw throughput for **observability and safety**: every state transition is logged, every secret is scrubbed, and every stuck worker is detected and killed within `stuck_threshold_s` seconds (default: 120s).
+tab-conductor has **different design goals** — observability, cost enforcement, and crash-safety. Every state transition is logged, every secret is scrubbed, and every stuck worker is detected and killed within `stuck_threshold_s` seconds (default: 120s). Pick whichever matches your use case; the two projects are complementary rather than competitive.
 
 ### vs claude-squad
 
