@@ -19,7 +19,7 @@ Use [GitHub's private vulnerability reporting](https://github.com/hinanohart/tab
 
 ### Alternative: Email
 
-Email `runzaisongpu95@gmail.com` with subject `[tab-conductor SECURITY] <brief description>`.
+If the private advisory form is unavailable, use the contact details on the maintainer's GitHub profile. Do **not** include the vulnerability details in a public issue.
 
 Include:
 - Description of the vulnerability
