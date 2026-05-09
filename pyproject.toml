@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "tab-conductor"
 version = "0.1.1"
 description = "Stable, observable multi-tab orchestrator skill for Claude Code — supervisor + worker subprocesses with JSON state, cost cap, secret deny, stuck detection, and post-mortem persistence."
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 authors = [{ name = "hinanohart" }]
 readme = "README.md"
 requires-python = ">=3.11"
