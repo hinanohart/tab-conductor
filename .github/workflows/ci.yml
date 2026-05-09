@@ -24,7 +24,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install jq + tmux (Linux)
         if: runner.os == 'Linux'
         run: sudo apt-get update -y && sudo apt-get install -y jq tmux
@@ -68,7 +68,7 @@ jobs:
     name: shellcheck + license
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install shellcheck
         run: sudo apt-get update -y && sudo apt-get install -y shellcheck
       - name: Shellcheck
@@ -89,7 +89,7 @@ jobs:
     name: validate example plans
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: astral-sh/setup-uv@caf0cab7a618c569241d31dcd442f54681755d39 # v3.2.4
         with:
           enable-cache: false
