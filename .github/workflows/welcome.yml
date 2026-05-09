@@ -1,0 +1,42 @@
+name: Welcome first-time contributors
+
+# `pull_request_target` runs in the BASE repo context (not the fork), giving the
+# token write access so we can comment on PRs from forks. We do NOT check out
+# untrusted PR code, so the documented `pull_request_target` fork-attack vector
+# does not apply here. See: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      # actions/first-interaction@v1.3.0 — pinned by SHA per security best practice
+      - uses: actions/first-interaction@fb2402657b4a28582200150d0a145671d0e50597
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            👋 Thanks for opening your first issue here!
+
+            A maintainer will look at it soon. Meanwhile:
+            - For **general questions**, please use the Discussions tab instead.
+            - For **security reports**, please use private advisories (Security tab → Report a vulnerability).
+            - Contributing guide: https://github.com/hinanohart/.github/blob/main/CONTRIBUTING.md
+          pr-message: |
+            🎉 Thanks for your first pull request!
+
+            A few things that help reviews go faster:
+            - PR title follows [Conventional Commits](https://www.conventionalcommits.org/) (e.g. `fix: ...`, `feat: ...`)
+            - Tests pass locally (`make test` or repo equivalent)
+            - One logical change per PR — split unrelated changes into separate PRs
+
+            Contributing guide: https://github.com/hinanohart/.github/blob/main/CONTRIBUTING.md
+
+            A maintainer will review shortly. Welcome aboard! 🚀
