@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # actions/first-interaction@v1.3.0 — pinned by SHA per security best practice
-      - uses: actions/first-interaction@fb2402657b4a28582200150d0a145671d0e50597
+      - uses: actions/first-interaction@3c71ce730280171fd1cfb57c00c774f8998586f7
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           issue-message: |
