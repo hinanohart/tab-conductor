@@ -3,7 +3,7 @@
 [![CI](https://github.com/hinanohart/tab-conductor/actions/workflows/ci.yml/badge.svg)](https://github.com/hinanohart/tab-conductor/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-83%25-green)](https://github.com/hinanohart/tab-conductor)
 [![PyPI](https://img.shields.io/badge/pypi-coming_soon-lightgrey)](https://pypi.org/project/tab-conductor/)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/downloads/)
 
 Stable, observable multi-tab orchestrator skill for Claude Code.
