@@ -58,8 +58,9 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
         run: |
-          gh release create "${{ inputs.tag }}" \
-            --title "${{ inputs.tag }}" \
+          gh release create "$TAG" \
+            --title "$TAG" \
             --notes-file CHANGELOG.md \
             dist/*
