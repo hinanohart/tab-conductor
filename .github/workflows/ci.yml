@@ -24,7 +24,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install jq + tmux (Linux)
         if: runner.os == 'Linux'
         run: sudo apt-get update -y && sudo apt-get install -y jq tmux
@@ -32,11 +32,11 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install jq tmux
       - name: Set up uv
-        uses: astral-sh/setup-uv@caf0cab7a618c569241d31dcd442f54681755d39 # v3.2.4
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           enable-cache: false
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Create venv and install
@@ -57,7 +57,7 @@ jobs:
             || pytest -q -m "not e2e" --cov=tab_conductor --cov-report=xml --cov-fail-under=80 --lf
       - name: Upload coverage to Codecov
         if: ${{ runner.os == 'Linux' && matrix.python-version == '3.12' && env.CODECOV_TOKEN != '' }}
-        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4.6.0
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
@@ -68,7 +68,7 @@ jobs:
     name: shellcheck + license
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install shellcheck
         run: sudo apt-get update -y && sudo apt-get install -y shellcheck
       - name: Shellcheck
@@ -76,7 +76,7 @@ jobs:
       - name: Bash syntax check
         run: for f in scripts/*.sh tests/fixtures/*.sh; do bash -n "$f"; done
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: License audit
@@ -89,11 +89,11 @@ jobs:
     name: validate example plans
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@caf0cab7a618c569241d31dcd442f54681755d39 # v3.2.4
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           enable-cache: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - run: sudo apt-get update -y && sudo apt-get install -y jq
