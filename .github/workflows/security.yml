@@ -77,3 +77,26 @@ jobs:
       - uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: results.sarif
+
+  gha-sast:
+    name: GitHub Actions SAST (zizmor)
+    permissions:
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@v2.19.3
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v7
+      - name: Run zizmor
+        run: uvx zizmor --format=sarif --persona=auditor .github/workflows/ > zizmor.sarif
+        continue-on-error: true
+      - name: Upload SARIF
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: github/codeql-action/upload-sarif@v4.35.5
+        with:
+          sarif_file: zizmor.sarif
