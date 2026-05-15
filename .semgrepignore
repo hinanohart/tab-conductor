@@ -1,4 +1,3 @@
 
 # 2026-05-16 audit: Semgrep false-positive 除外
 # 動機: ${{ inputs.tag }} は workflow_dispatch input (owner-only)。env 経由化は別 PR で対応予定
-.github/workflows/release.yml
