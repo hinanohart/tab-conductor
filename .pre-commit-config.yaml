@@ -37,9 +37,16 @@ repos:
       - id: actionlint
 
   - repo: https://github.com/hadolint/hadolint
-    rev: v2.13.1-beta
+    rev: v2.14.0
     hooks:
       - id: hadolint
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.9.4
+    hooks:
+      - id: bandit
+        args: ["-r", ".", "-x", "tests,test"]
+        files: \.py$
 
   - repo: https://github.com/google/osv-scanner
     rev: v2.3.8
