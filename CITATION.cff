@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "tab-conductor"
+authors:
+  - family-names: "Hart"
+    given-names: "Hinano"
+version: "0.1.2"
+date-released: "2026-05-20"
+license: MIT
+repository-code: "https://github.com/hinanohart/tab-conductor"
